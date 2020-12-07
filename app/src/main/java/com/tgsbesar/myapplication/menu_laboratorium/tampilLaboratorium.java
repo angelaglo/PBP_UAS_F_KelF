@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class tampilLaboratorium extends AppCompatActivity {
-    String no_booking;
+    Integer no_booking;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,9 @@ public class tampilLaboratorium extends AppCompatActivity {
         Laboratorium lab= (Laboratorium) getIntent().getSerializableExtra("Laboratorium");
         String jam = getIntent().getStringExtra("Jam");
         String tanggal = getIntent().getStringExtra("Tanggal");
-        String no_book = getIntent().getStringExtra("no_book");
+     //    no_booking = Integer.valueOf(getIntent().getStringExtra("id"));
+
+
 
         TextView txt_PaketCheckUp = (TextView) findViewById(R.id.txtPaketCheckUp);
         TextView txt_Deskripsi = (TextView) findViewById(R.id.txtDeskripsi);
@@ -55,9 +57,9 @@ public class tampilLaboratorium extends AppCompatActivity {
         txt_harga.setText(String.valueOf(lab.harga_test));
         txt_tanggalCheckUp.setText(tanggal);
         txt_jamCheckUp.setText(jam);
-        txt_noBooking.setText(no_book);
-
-        no_booking=no_book;
+//        txt_noBooking.setText(no_book);
+//
+//        no_booking=no_book;
         Button btn_save = (Button)findViewById(R.id.buttonSendLab);
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override

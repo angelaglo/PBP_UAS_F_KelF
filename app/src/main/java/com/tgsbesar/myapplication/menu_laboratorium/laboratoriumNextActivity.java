@@ -42,7 +42,8 @@ import static com.android.volley.Request.Method.POST;
 
 public class laboratoriumNextActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
-    String jam, no_booking,email ,strDate;
+    String jam, no_booking,email="stevani@yy.com" ,strDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,16 +82,17 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         categories.add("17:00 - 19:00");
         categories.add("21:00 - 22:00");
 
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, categories);
         drop.setAdapter(adapter);
         drop.setOnItemClickListener(this);
 
-        no_booking=String.valueOf(getRandomNumberInRange(1000,3000));
+
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pesanLab(email,lab.getKategori(),lab.harga_test,strDate,jam);
+                pesanLab(email,lab.getKategori(),String.valueOf(lab.harga_test),strDate,jam, lab.getDeskripsi());
             }
         });
     }
@@ -121,7 +123,7 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         return r.nextInt((max - min) + 1) + min;
     }
 
-    public void pesanLab(final String email, final String paket_checkUp, final Double harga_paket, final String tgl_checkUp, final String jam_checkUp){
+    public void pesanLab(final String email, final String paket_checkUp, final String harga_paket, final String tgl_checkUp, final String jam_checkUp, final String deskripsi_checkUp){
         //Tambahkan tambah buku disini
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -136,17 +138,18 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
 
             @Override
             public void onResponse(String response) {
+                System.out.println(response.toString());
                 progressDialog.dismiss();
                 try {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
 
                     if (obj.getString("message").equals("Add TransaksiLaboratorium Success")) {
+                        Laboratorium lab = new Laboratorium(paket_checkUp,deskripsi_checkUp,Double.valueOf(harga_paket));
                         Intent intent = new Intent(laboratoriumNextActivity.this, tampilLaboratorium.class);
-                        intent.putExtra("Jam",jam_checkUp);
-                        intent.putExtra("Laboratorium",paket_checkUp);
+                        intent.putExtra("Laboratorium", lab);
                         intent.putExtra("Tanggal",tgl_checkUp);
-                        intent.putExtra("no_book",no_booking);
+                        intent.putExtra("Jam",jam_checkUp);
                         startActivity(intent);
                     }
 
@@ -158,6 +161,7 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 progressDialog.dismiss();
                 Toast.makeText(laboratoriumNextActivity.this, error.getMessage(),Toast.LENGTH_SHORT).show();
             }
@@ -166,10 +170,11 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
             protected Map<String, String> getParams(){
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("paket_checkUp", paket_checkUp);
-                params.put("harga_paket", String.valueOf(harga_paket));
+                params.put("harga_paket", harga_paket);
                 params.put("tgl_checkUp", String.valueOf(tgl_checkUp));
                 params.put("jam_checkUp",jam_checkUp);
                 params.put("email",email);
+                params.put("deskripsi_checkUp",deskripsi_checkUp);
 
 
 

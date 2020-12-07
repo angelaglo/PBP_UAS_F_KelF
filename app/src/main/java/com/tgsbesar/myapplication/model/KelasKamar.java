@@ -6,13 +6,13 @@ public class KelasKamar implements Serializable {
     public String tipe_kamar;
     public double harga_kamar;
     public String fasilitas_kamar;
-    public Integer jumlah_kamar;
 
-    public KelasKamar(String tipe_kamar, String fasilitas_kamar,double harga_kamar, int jumlah_kamar){
+
+    public KelasKamar(String tipe_kamar, String fasilitas_kamar,double harga_kamar ){
         this.tipe_kamar=tipe_kamar;
         this.fasilitas_kamar=fasilitas_kamar;
         this.harga_kamar=harga_kamar;
-        this.jumlah_kamar=jumlah_kamar;
+
     }
 
     public String getTipe_kamar() {
@@ -39,11 +39,5 @@ public class KelasKamar implements Serializable {
         this.fasilitas_kamar = fasilitas_kamar;
     }
 
-    public Integer getJumlah_kamar() {
-        return jumlah_kamar;
-    }
 
-    public void setJumlah_kamar(Integer jumlah_kamar) {
-        this.jumlah_kamar = jumlah_kamar;
-    }
 }

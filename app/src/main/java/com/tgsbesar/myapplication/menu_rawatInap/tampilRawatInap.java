@@ -34,7 +34,7 @@ public class tampilRawatInap extends AppCompatActivity {
 
         KelasKamar kmr = (KelasKamar) getIntent().getSerializableExtra("KelasKamar");
         String tanggal = getIntent().getStringExtra("Tanggal");
-        String no_book = getIntent().getStringExtra("no_book");
+       // String no_book = getIntent().getStringExtra("no_book");
 
         TextView txt_TipeKamar = (TextView) findViewById(R.id.txtKelasKamar);
         TextView txt_Fasilitas = (TextView) findViewById(R.id.txtFasilitas);
@@ -47,10 +47,7 @@ public class tampilRawatInap extends AppCompatActivity {
         txt_Fasilitas.setText(kmr.fasilitas_kamar);
         txt_Harga.setText(String.valueOf(kmr.harga_kamar));
         txt_tanggal.setText(tanggal);
-        txt_noBooking.setText(no_book);
 
-
-        no_booking=no_book;
         Button btn_save = (Button)findViewById(R.id.buttonSendRI);
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override

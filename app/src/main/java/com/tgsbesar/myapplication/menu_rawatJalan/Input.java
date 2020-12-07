@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
+import com.tgsbesar.myapplication.API.transaksiRJalanAPI;
 import com.tgsbesar.myapplication.R;
 import com.tgsbesar.myapplication.menu_rawatInap.daftarRawatInapNext;
 import com.tgsbesar.myapplication.menu_rawatInap.tampilRawatInap;
@@ -40,7 +41,7 @@ import static com.android.volley.Request.Method.POST;
 public class Input extends AppCompatActivity  implements AdapterView.OnItemClickListener {
 
 
-    String jam, no_urut, strDate,email;
+    String jam, no_urut, strDate,email="stevani@tubes.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +130,7 @@ public class Input extends AppCompatActivity  implements AdapterView.OnItemClick
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(POST, transaksiLaboratoriumAPI.URL_ADD, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(POST, transaksiRJalanAPI.URL_ADD, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

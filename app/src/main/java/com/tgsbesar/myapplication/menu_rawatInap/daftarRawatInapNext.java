@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
+import com.tgsbesar.myapplication.API.transaksiRInapAPI;
 import com.tgsbesar.myapplication.R;
 import com.tgsbesar.myapplication.menu_laboratorium.laboratoriumNextActivity;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
@@ -43,7 +44,7 @@ import static com.android.volley.Request.Method.POST;
 
 public class daftarRawatInapNext extends AppCompatActivity {
 
-    String message,no_book,email,strDate;
+    String message,no_book,email="stevani@tubes.com",strDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class daftarRawatInapNext extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pesanKamar(email,kmr.tipe_kamar,kmr.harga_kamar,strDate);
+                pesanKamar(email,kmr.tipe_kamar,kmr.fasilitas_kamar,String.valueOf(kmr.harga_kamar),strDate);
             }
         });
     }
@@ -104,7 +105,7 @@ public class daftarRawatInapNext extends AppCompatActivity {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    public void pesanKamar(final String email, final String kelas_kamar, final Double harga_kamar, final String tgl_rinap){
+    public void pesanKamar(final String email, final String kelas_kamar, final String fasilitas, final String harga_kamar, final String tgl_rinap){
         //Tambahkan tambah buku disini
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -115,7 +116,7 @@ public class daftarRawatInapNext extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(POST, transaksiLaboratoriumAPI.URL_ADD, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(POST, transaksiRInapAPI.URL_ADD, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -124,11 +125,11 @@ public class daftarRawatInapNext extends AppCompatActivity {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
 
-                    if (obj.getString("message").equals("Add Transaksi Rawat Inap Success")) {
+                    if (obj.getString("message").equals("Add Transaksi Success")) {
                         Intent intent = new Intent(daftarRawatInapNext.this, tampilRawatInap.class);
-                        intent.putExtra("KelasKamar",kelas_kamar);
+                        KelasKamar kelasKamar = new KelasKamar(kelas_kamar,fasilitas,Double.valueOf(harga_kamar));
+                        intent.putExtra("KelasKamar",kelasKamar);
                         intent.putExtra("Tanggal",tgl_rinap);
-                        intent.putExtra("no_book",no_book);
                         startActivity(intent);
                     }
 
@@ -148,8 +149,8 @@ public class daftarRawatInapNext extends AppCompatActivity {
             protected Map<String, String> getParams(){
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("kelas_kamar", kelas_kamar);
-                params.put("harga_kamar", String.valueOf(harga_kamar));
-                params.put("tgl_checkUp", String.valueOf(tgl_rinap));
+                params.put("harga_kamar", harga_kamar);
+                params.put("tgl_rinap", tgl_rinap);
                 params.put("email",email);
 
 

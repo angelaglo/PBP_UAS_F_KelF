@@ -135,11 +135,11 @@ public class daftarRawatInap extends AppCompatActivity {
                         String tipe_kamar             = jsonObject.optString("kelas_kamar");
                         String fasilitas            = jsonObject.optString("fasilitas_kamar");
                         Double harga_kamar           = jsonObject.optDouble("harga_kamar");
-                        Integer jumlah_kamar           = jsonObject.optInt("jumlah_kamar");
+
 
 
                         //Membuat objek user
-                        KelasKamar kamar= new KelasKamar(tipe_kamar,fasilitas,harga_kamar,jumlah_kamar);
+                        KelasKamar kamar= new KelasKamar(tipe_kamar,fasilitas,harga_kamar);
 
                         //Menambahkan objek user tadi ke list user
                         listKamar.add(kamar);
