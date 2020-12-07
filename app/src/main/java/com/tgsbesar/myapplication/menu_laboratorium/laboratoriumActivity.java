@@ -105,10 +105,11 @@ public class laboratoriumActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
+                System.out.println(response.toString());
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("laboratorium");
+                    JSONArray jsonArray = response.getJSONArray("data");
 
                     if(!listLab.isEmpty())
                         listLab.clear();

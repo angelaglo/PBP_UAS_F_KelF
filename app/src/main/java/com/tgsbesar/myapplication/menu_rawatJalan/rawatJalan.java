@@ -97,7 +97,7 @@ public class rawatJalan extends AppCompatActivity {
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("rawat_jalan");
+                    JSONArray jsonArray = response.getJSONArray("data");
 
                     if(!spesialisArrayList.isEmpty())
                         spesialisArrayList.clear();

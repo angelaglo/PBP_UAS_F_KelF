@@ -122,7 +122,7 @@ public class daftarRawatInap extends AppCompatActivity {
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("rawat_inap");
+                    JSONArray jsonArray = response.getJSONArray("data");
 
                     if(!listKamar.isEmpty())
                         listKamar.clear();
