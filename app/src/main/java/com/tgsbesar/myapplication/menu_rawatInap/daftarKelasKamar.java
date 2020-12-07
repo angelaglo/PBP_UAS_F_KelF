@@ -5,7 +5,7 @@ import com.tgsbesar.myapplication.model.KelasKamar;
 import java.util.ArrayList;
 
 public class daftarKelasKamar {
-
+/*
     public ArrayList<KelasKamar> KELAS_KAMAR = new ArrayList<>();
 
     public daftarKelasKamar(){
@@ -19,5 +19,5 @@ public class daftarKelasKamar {
     public static final KelasKamar VIP = new KelasKamar("VIP",1000000,"Private room, AC, Living Room");
     public static final KelasKamar Kelas_1 = new KelasKamar("Kelas 1",750000,"Private room, AC");
     public static final KelasKamar Kelas_2 = new KelasKamar("Kelas 2",500000,"Sharing 2 people, AC");
-    public static final KelasKamar Kelas_3 = new KelasKamar("Kelas 3", 250000,"Sharing 4 people, No-AC, Fan");
+    public static final KelasKamar Kelas_3 = new KelasKamar("Kelas 3", 250000,"Sharing 4 people, No-AC, Fan");*/
 }

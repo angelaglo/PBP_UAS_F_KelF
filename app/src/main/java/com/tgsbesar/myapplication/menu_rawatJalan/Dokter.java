@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class Dokter implements Serializable {
     public String nama;
-    public String jabatan;
+    public String spesialis;
 
-    public Dokter(String nama, String jabatan) {
+    public Dokter(String nama, String spesialis) {
         this.nama = nama;
-        this.jabatan = jabatan;
+        this.spesialis = spesialis;
     }
 
     public String getNama() {
@@ -17,9 +17,9 @@ public class Dokter implements Serializable {
 
     public void setNama(String nama) { this.nama = nama; }
 
-    public String getJabatan() {
-        return jabatan;
+    public String getSpesialis() {
+        return spesialis;
     }
 
-    public void setJabatan(String namaspes) { this.jabatan = jabatan; }
+    public void setSpesialis(String namaspes) { this.spesialis = spesialis; }
 }

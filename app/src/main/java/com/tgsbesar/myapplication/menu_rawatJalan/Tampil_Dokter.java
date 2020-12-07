@@ -41,9 +41,9 @@ public class Tampil_Dokter extends AppCompatActivity {
 
            for(Dokter data2 : data){
 
-               if(data2.getJabatan().contains(nama)){
+               if(data2.getSpesialis().contains(nama)){
                    dokterArrayList.add(data2);
-                   Log.d("MASUK",data2.getJabatan() + nama );
+                   Log.d("MASUK",data2.getSpesialis() + nama );
                }
            }
     }

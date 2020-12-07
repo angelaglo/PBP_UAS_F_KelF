@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 public class SpesialisAdapter extends RecyclerView.Adapter<SpesialisAdapter.SpesialisViewHolder> {
 
-    private ArrayList<Spesialis> dataList;
+    private ArrayList<Dokter> dataList;
     private ArrayList<Dokter> dokterList;
     ActivityListDoctorBinding binding;
     private OnClickListener onClickListener;
 
-    public SpesialisAdapter(ArrayList<Spesialis> dataList) {
+    public SpesialisAdapter(ArrayList<Dokter> dataList) {
         this.dataList=dataList;
     }
 

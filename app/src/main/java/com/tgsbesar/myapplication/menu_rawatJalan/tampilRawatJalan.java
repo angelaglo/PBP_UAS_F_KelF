@@ -41,14 +41,14 @@ public class tampilRawatJalan extends AppCompatActivity {
         TextView txt_jam = (TextView) findViewById(R.id.txtJam);
         TextView txt_noBooking = (TextView) findViewById(R.id.txtNoUrut);
 
-        txt_spesialis.setText(dtr.jabatan);
+        txt_spesialis.setText(dtr.spesialis);
         txt_dokter.setText(dtr.nama);
         txt_tanggal.setText(tanggal);
         txt_jam.setText(jam);
         txt_noBooking.setText(no_urut);
 
         nama_dr=dtr.nama;
-        jabatan_dr=dtr.jabatan;
+        jabatan_dr=dtr.spesialis;
         tanggal_rj=tanggal;
         jam_rj=jam;
         no_antrian=no_urut;

@@ -58,8 +58,8 @@ public class recyclerViewLaboratorium extends RecyclerView.Adapter<recyclerViewL
     @Override
     public void onBindViewHolder(@NonNull recyclerViewLaboratorium.MyViewHolder holder, final int position) {
         final Laboratorium lab = result.get(position);
-
         holder.bind(lab);
+
         holder.cv_ListLab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
