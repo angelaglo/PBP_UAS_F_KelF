@@ -2,6 +2,7 @@ package com.tgsbesar.myapplication.menu_laboratorium;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,6 +14,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.R;
 import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
 import com.tgsbesar.myapplication.menu_rawatJalan.Input;
@@ -20,14 +27,22 @@ import com.tgsbesar.myapplication.menu_rawatJalan.tampilRawatJalan;
 import com.tgsbesar.myapplication.model.Laboratorium;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
+import static com.android.volley.Request.Method.POST;
 
 public class laboratoriumNextActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
-    String message, no_booking;
+    String jam, no_booking,email ,strDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +57,7 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         int Year = calendar.get(Calendar.YEAR);
 
         Button btnDate = findViewById(R.id.buttonPickDateCheckUp);
-        TextView text = findViewById(R.id.tv_dateCheckUp);
+        TextView tanggal = findViewById(R.id.tv_dateCheckUp);
         Button btnSend = findViewById(R.id.buttonSend);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,8 +65,8 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
                 DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        String strDate = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
-                        text.setText(strDate);
+                        strDate = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+                        tanggal.setText(strDate);
                     }
                 },Year, Month, Day);
 
@@ -75,20 +90,15 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(laboratoriumNextActivity.this, tampilLaboratorium.class);
-                intent.putExtra("Jam",message);
-                intent.putExtra("Laboratorium",lab);
-                intent.putExtra("Tanggal",text.getText().toString());
-                intent.putExtra("no_book",no_booking);
-                startActivity(intent);
+                pesanLab(email,lab.getKategori(),lab.harga_test,strDate,jam);
             }
         });
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        message = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(), "Jam " + message, Toast.LENGTH_SHORT).show();
+        jam = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(), "Jam " +jam, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -109,5 +119,64 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    public void pesanLab(final String email, final String paket_checkUp, final Double harga_paket, final String tgl_checkUp, final String jam_checkUp){
+        //Tambahkan tambah buku disini
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Menambahkan data transaksi");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(POST, transaksiLaboratoriumAPI.URL_ADD, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                try {
+                    //Mengubah response string menjadi object
+                    JSONObject obj = new JSONObject(response);
+
+                    if (obj.getString("message").equals("Add TransaksiLaboratorium Success")) {
+                        Intent intent = new Intent(laboratoriumNextActivity.this, tampilLaboratorium.class);
+                        intent.putExtra("Jam",jam_checkUp);
+                        intent.putExtra("Laboratorium",paket_checkUp);
+                        intent.putExtra("Tanggal",tgl_checkUp);
+                        intent.putExtra("no_book",no_booking);
+                        startActivity(intent);
+                    }
+
+                    Toast.makeText(laboratoriumNextActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(laboratoriumNextActivity.this, error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("paket_checkUp", paket_checkUp);
+                params.put("harga_paket", String.valueOf(harga_paket));
+                params.put("tgl_checkUp", String.valueOf(tgl_checkUp));
+                params.put("jam_checkUp",jam_checkUp);
+                params.put("email",email);
+
+
+
+                return params;
+            }
+
+        };
+        queue.add(stringRequest);
     }
 }

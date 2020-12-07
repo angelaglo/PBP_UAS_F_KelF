@@ -122,7 +122,7 @@ public class laboratoriumActivity extends AppCompatActivity {
                         String deskripsi            = jsonObject.optString("deskripsi_checkUp");
                         Double harga_test           = jsonObject.optDouble("harga_paket");
 
-
+                        System.out.println(kategori);
                         //Membuat objek user
                         Laboratorium laboratorium= new Laboratorium(kategori,deskripsi,harga_test);
 

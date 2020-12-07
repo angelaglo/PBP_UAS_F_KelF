@@ -49,9 +49,11 @@ android:id="@+id/linearLayout_nextLab">
     android:text="Pilih Tanggal"
     android:layout_marginTop="20dp" />
 
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dropdown_checkUp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -73,6 +75,7 @@ android:id="@+id/linearLayout_nextLab">
             android:hint="Pilih Waktu"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/buttonSend"

@@ -2,6 +2,7 @@ package com.tgsbesar.myapplication.menu_rawatInap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,21 +14,36 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.menu_laboratorium.laboratoriumNextActivity;
+import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
 import com.tgsbesar.myapplication.menu_rawatJalan.Input;
 import com.tgsbesar.myapplication.menu_rawatJalan.tampilRawatJalan;
 import com.tgsbesar.myapplication.model.KelasKamar;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
+import static com.android.volley.Request.Method.POST;
 
 public class daftarRawatInapNext extends AppCompatActivity {
 
-    String message,no_book;
+    String message,no_book,email,strDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +65,7 @@ public class daftarRawatInapNext extends AppCompatActivity {
                 DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        String strDate = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
+                        strDate = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
                         text.setText(strDate);
                     }
                 },Year, Month, Day);
@@ -62,11 +78,7 @@ public class daftarRawatInapNext extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(daftarRawatInapNext.this, tampilRawatInap.class);
-                intent.putExtra("KelasKamar",kmr);
-                intent.putExtra("Tanggal",text.getText().toString());
-                intent.putExtra("no_book",no_book);
-                startActivity(intent);
+                pesanKamar(email,kmr.tipe_kamar,kmr.harga_kamar,strDate);
             }
         });
     }
@@ -90,6 +102,63 @@ public class daftarRawatInapNext extends AppCompatActivity {
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    public void pesanKamar(final String email, final String kelas_kamar, final Double harga_kamar, final String tgl_rinap){
+        //Tambahkan tambah buku disini
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Menambahkan data transaksi");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(POST, transaksiLaboratoriumAPI.URL_ADD, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                try {
+                    //Mengubah response string menjadi object
+                    JSONObject obj = new JSONObject(response);
+
+                    if (obj.getString("message").equals("Add Transaksi Rawat Inap Success")) {
+                        Intent intent = new Intent(daftarRawatInapNext.this, tampilRawatInap.class);
+                        intent.putExtra("KelasKamar",kelas_kamar);
+                        intent.putExtra("Tanggal",tgl_rinap);
+                        intent.putExtra("no_book",no_book);
+                        startActivity(intent);
+                    }
+
+                    Toast.makeText(daftarRawatInapNext.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Toast.makeText(daftarRawatInapNext.this, error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("kelas_kamar", kelas_kamar);
+                params.put("harga_kamar", String.valueOf(harga_kamar));
+                params.put("tgl_checkUp", String.valueOf(tgl_rinap));
+                params.put("email",email);
+
+
+
+                return params;
+            }
+
+        };
+        queue.add(stringRequest);
     }
 
 }
