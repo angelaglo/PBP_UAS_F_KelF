@@ -101,7 +101,7 @@ public class daftarRawatInap extends AppCompatActivity {
 
     }
 
-    //mengambil data laboratorium
+    //mengambil data kamar
     public void getKamar() {
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(this);

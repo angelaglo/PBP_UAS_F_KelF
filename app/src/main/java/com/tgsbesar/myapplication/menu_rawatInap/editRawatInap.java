@@ -1,4 +1,4 @@
-package com.tgsbesar.myapplication.menu_laboratorium;
+package com.tgsbesar.myapplication.menu_rawatInap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +17,19 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.tgsbesar.myapplication.API.RawatInapAPI;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
+import com.tgsbesar.myapplication.API.transaksiRInapAPI;
 import com.tgsbesar.myapplication.R;
-import com.tgsbesar.myapplication.model.Laboratorium;
+import com.tgsbesar.myapplication.menu_laboratorium.editTransaksiLab;
+import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
+import com.tgsbesar.myapplication.model.KelasKamar;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,22 +40,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static com.android.volley.Request.Method.POST;
+import static com.android.volley.Request.Method.GET;
 import static com.android.volley.Request.Method.PUT;
 
-public class editTransaksiLab extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class editRawatInap extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     String jam, no_booking,email="stevani@yy.com" ,strDate;
-    Integer id=0;
+    private Integer id=0;
+    private String kelasKamar;
+    private Double hargaKamar;
+    private ArrayList<KelasKamar> listKamar = new ArrayList<>();
+    private AutoCompleteTextView drop;
 
+    private ArrayList<String>namaKelas= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_transaksi_lab);
+        setContentView(R.layout.activity_edit_rawat_inap);
 
         id = Integer.valueOf((String) getIntent().getSerializableExtra("id"));
 
-
+        getKamar();
         Calendar calendar = Calendar.getInstance();
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
         int Month = calendar.get(Calendar.MONTH);
@@ -73,32 +84,26 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
             }
         });
 
-        AutoCompleteTextView drop = findViewById(R.id.dropdown_fill_CheckUp);
-        List<String> categories = new ArrayList<String>();
-        categories.add("09:00 - 11:00");
-        categories.add("13:00 - 15:00");
-        categories.add("17:00 - 19:00");
-        categories.add("21:00 - 22:00");
+        drop = findViewById(R.id.dropdown_fill_Kelas);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, categories);
-        drop.setAdapter(adapter);
-        drop.setOnItemClickListener(this);
 
 
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              editTransaksi(strDate,jam);
+                editTransaksi(kelasKamar, hargaKamar, strDate);
             }
         });
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        jam = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(), "Jam " +jam, Toast.LENGTH_SHORT).show();
+
+        kelasKamar = adapterView.getItemAtPosition(i).toString();
+        hargaKamar = listKamar.get(i).harga_kamar;
+
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -122,19 +127,19 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
     }
 
 
-    public void editTransaksi(final String tgl_checkUp, final String jam_checkUp){
+    public void editTransaksi(final String kelas_kamar, final Double harga_kamar, final String tgl_rinap){
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(this);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Mengubah data mahasiswa");
+        progressDialog.setTitle("Mengubah data rawat inap");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
         //Memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest  stringRequest = new StringRequest(PUT, transaksiLaboratoriumAPI.URL_UPDATE + String.valueOf(id) ,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(PUT, transaksiRInapAPI.URL_UPDATE + String.valueOf(id) ,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
@@ -145,12 +150,12 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
                     JSONObject obj = new JSONObject(response);
 
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(editTransaksiLab.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(editRawatInap.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     System.out.println(response.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Intent i = new Intent(editTransaksiLab.this, tampilLaboratorium.class);
+                Intent i = new Intent(editRawatInap.this, tampilRawatInap.class);
                 startActivity(i);
             }
         }, new Response.ErrorListener() {
@@ -158,7 +163,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
             public void onErrorResponse(VolleyError error) {
                 //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(editTransaksiLab.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(editRawatInap.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -170,12 +175,79 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
                     API.
                 */
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("tgl_checkUp", tgl_checkUp);
-                params.put("jam_checkUp", jam_checkUp);
-                System.out.println(tgl_checkUp);
+                params.put("kelas_kamar", kelas_kamar);
+                params.put("tgl_rinap", tgl_rinap);
+                params.put("harga_kamar", String.valueOf(harga_kamar));
                 return params;
             }
         };
+
+        //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
+        queue.add(stringRequest);
+    }
+
+    public void getKamar() {
+        //Pendeklarasian queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Menampilkan data laboratorium");
+        progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+        //select data
+        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, RawatInapAPI.URL_SELECT, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
+                progressDialog.dismiss();
+                try {
+                    //Mengambil data response json object yang berupa data mahasiswa
+                    JSONArray jsonArray = response.getJSONArray("data");
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        //Mengubah data jsonArray tertentu menjadi json Object
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+
+
+                        String tipe_kamar             = jsonObject.optString("kelas_kamar");
+                        String fasilitas            = jsonObject.optString("fasilitas_kamar");
+                        Double harga_kamar           = jsonObject.optDouble("harga_kamar");
+
+
+
+                        //Membuat objek user
+                        KelasKamar kamar= new KelasKamar(tipe_kamar,fasilitas,harga_kamar);
+
+                        //Menambahkan objek user tadi ke list user
+                        listKamar.add(kamar);
+
+                        namaKelas.add(tipe_kamar);
+
+
+                    }
+                     ArrayAdapter<String> adapter= new ArrayAdapter<String>(editRawatInap.this,R.layout.support_simple_spinner_dropdown_item, namaKelas);
+                    drop.setAdapter(adapter);
+                    drop.setOnItemClickListener(editRawatInap.this);
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+                Toast.makeText(editRawatInap.this, response.optString("message"),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Disini bagian jika response jaringan terdapat ganguan/error
+                progressDialog.dismiss();
+                Toast.makeText(editRawatInap.this, error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);

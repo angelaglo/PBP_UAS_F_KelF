@@ -120,6 +120,7 @@ public class daftarRawatInapNext extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
+                System.out.println(response.toString());
                 progressDialog.dismiss();
                 try {
                     //Mengubah response string menjadi object

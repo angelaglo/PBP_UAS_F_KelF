@@ -7,6 +7,11 @@
     android:orientation="vertical"
     tools:context="com.tgsbesar.myapplication.menu_rawatInap.tampilRawatInap">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
@@ -125,18 +130,39 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <Button
-        android:id="@+id/buttonSendRI"
-        android:layout_width="145dp"
-        android:layout_height="51dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.893" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom|center">
+        <Button
+            android:id="@+id/buttonEdit"
+            android:layout_width="145dp"
+            android:layout_height="51dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:text="Edit"
+            android:backgroundTint="@color/cardview_shadow_start_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.893" />
+        <Button
+            android:id="@+id/buttonSendRI"
+            android:layout_width="145dp"
+            android:layout_height="51dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.893" />
+    </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
