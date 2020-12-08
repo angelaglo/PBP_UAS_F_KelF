@@ -127,9 +127,9 @@ public class daftarRawatInapNext extends AppCompatActivity {
 
                     if (obj.getString("message").equals("Add Transaksi Success")) {
                         Intent intent = new Intent(daftarRawatInapNext.this, tampilRawatInap.class);
-                        KelasKamar kelasKamar = new KelasKamar(kelas_kamar,fasilitas,Double.valueOf(harga_kamar));
-                        intent.putExtra("KelasKamar",kelasKamar);
-                        intent.putExtra("Tanggal",tgl_rinap);
+                       // KelasKamar kelasKamar = new KelasKamar(kelas_kamar,fasilitas,Double.valueOf(harga_kamar));
+                       // intent.putExtra("KelasKamar",kelasKamar);
+                       // intent.putExtra("Tanggal",tgl_rinap);
                         startActivity(intent);
                     }
 

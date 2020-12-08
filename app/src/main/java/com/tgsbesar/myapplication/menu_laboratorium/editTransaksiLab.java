@@ -21,9 +21,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.R;
-import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
-import com.tgsbesar.myapplication.menu_rawatJalan.Input;
-import com.tgsbesar.myapplication.menu_rawatJalan.tampilRawatJalan;
 import com.tgsbesar.myapplication.model.Laboratorium;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -32,24 +29,25 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import static com.android.volley.Request.Method.POST;
+import static com.android.volley.Request.Method.PUT;
 
-public class laboratoriumNextActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class editTransaksiLab extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     String jam, no_booking,email="stevani@yy.com" ,strDate;
+    Integer id=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_laboratorium_next);
+        setContentView(R.layout.activity_edit_transaksi_lab);
 
-        Laboratorium lab = (Laboratorium) getIntent().getSerializableExtra("Laboratorium") ;
+      //  id = Integer.valueOf((String) getIntent().getSerializableExtra("id"));
 
 
         Calendar calendar = Calendar.getInstance();
@@ -92,7 +90,7 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pesanLab(email,lab.getKategori(),String.valueOf(lab.harga_test),strDate,jam, lab.getDeskripsi());
+             // editTransaksi(strDate,jam);
             }
         });
     }
@@ -123,65 +121,62 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         return r.nextInt((max - min) + 1) + min;
     }
 
-    public void pesanLab(final String email, final String paket_checkUp, final String harga_paket, final String tgl_checkUp, final String jam_checkUp, final String deskripsi_checkUp){
-        //Tambahkan tambah buku disini
+
+    public void editTransaksi(final String tgl_checkUp, final String jam_checkUp){
+        //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(this);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menambahkan data transaksi");
+        progressDialog.setTitle("Mengubah data mahasiswa");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        StringRequest stringRequest = new StringRequest(POST, transaksiLaboratoriumAPI.URL_ADD, new Response.Listener<String>() {
-
+        //Memulai membuat permintaan request menghapus data ke jaringan
+        StringRequest  stringRequest = new StringRequest(PUT, transaksiLaboratoriumAPI.URL_UPDATE + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println(response.toString());
+                //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
                 progressDialog.dismiss();
                 try {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
 
-                    if (obj.getString("message").equals("Add TransaksiLaboratorium Success")) {
-                        Laboratorium lab = new Laboratorium(paket_checkUp,deskripsi_checkUp,Double.valueOf(harga_paket));
-                        Intent intent = new Intent(laboratoriumNextActivity.this, tampilLaboratorium.class);
-                    //    intent.putExtra("Laboratorium", lab);
-                      //  intent.putExtra("Tanggal",tgl_checkUp);
-                      //  intent.putExtra("Jam",jam_checkUp);
-                        startActivity(intent);
-                    }
+                    //obj.getString("message") digunakan untuk mengambil pesan message dari response
+                    Toast.makeText(editTransaksiLab.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(laboratoriumNextActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Intent i = new Intent(editTransaksiLab.this, tampilLaboratorium.class);
+                startActivity(i);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(laboratoriumNextActivity.this, error.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(editTransaksiLab.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
-            protected Map<String, String> getParams(){
+            protected Map<String, String> getParams()
+            {
+                /*
+                    Disini adalah proses memasukan/mengirimkan parameter key dengan data value,
+                    dan nama key nya harus sesuai dengan parameter key yang diminta oleh jaringan
+                    API.
+                */
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("paket_checkUp", paket_checkUp);
-                params.put("harga_paket", harga_paket);
-                params.put("tgl_checkUp", String.valueOf(tgl_checkUp));
-                params.put("jam_checkUp",jam_checkUp);
-                params.put("email",email);
-                params.put("deskripsi_checkUp",deskripsi_checkUp);
-
-
+                params.put("tgl_checkUp", tgl_checkUp);
+                params.put("jam_checkUp", jam_checkUp);
 
                 return params;
             }
-
         };
+
+        //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }
 }

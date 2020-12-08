@@ -3,24 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tgsbesar.myapplication">
 
-    <uses-feature android:name="android.hardware.camera" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".registerLogin.Login"></activity>
-        <activity android:name=".registerLogin.Register" /> <!-- Home -->
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".menu_laboratorium.editTransaksiLab"></activity>
+
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+        <activity android:name=".registerLogin.Login" />
+        <activity android:name=".registerLogin.Register" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -29,42 +27,42 @@
 
             <!-- Hapus Intent filter MainActivity -->
         </activity>
-        <activity android:name=".profile.cameraActivity" />
-        <activity android:name=".navigation.lokasiRS" /> <!-- Menu Rawat Inap -->
+        <activity android:name=".profile.cameraActivity" /> <!-- Home -->
+        <activity android:name=".navigation.lokasiRS" />
         <activity
             android:name=".menu_rawatInap.tampilRawatInap"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".menu_rawatInap.daftarRawatInap"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" /> <!-- Menu Rawat Inap -->
         <activity
             android:name=".menu_rawatInap.daftarRawatInapNext"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" /> <!-- Menu Rawat Jalan -->
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".menu_rawatJalan.rawatJalan"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".menu_rawatJalan.Tampil_Dokter"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" /> <!-- Menu Rawat Jalan -->
         <activity
             android:name=".menu_rawatJalan.tampilRawatJalan"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".menu_rawatJalan.Input"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" /> <!-- Menu Lab -->
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".menu_laboratorium.laboratoriumNextActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".menu_laboratorium.tampilLaboratorium"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" /> <!-- Menu Lab -->
         <activity
             android:name=".menu_laboratorium.recyclerViewLaboratorium"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             tools:ignore="Instantiatable" />
         <activity
             android:name=".menu_laboratorium.laboratoriumActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" /> <!-- Splash screen -->
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" />
         <activity
             android:name=".splashScreen"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -76,11 +74,26 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" /> <!-- Splash screen -->
         <service android:name=".MessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="true" />
     </application>
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>
