@@ -6,13 +6,16 @@ public class Profile {
     public String noTelp;
     public String gender;
     public String umur;
+    public String password;
 
-    public Profile(String nama_lengkap, String alamat, String noTelp, String gender, String umur){
+
+    public Profile(String nama_lengkap, String alamat, String noTelp, String gender, String umur, String password){
         this.nama_lengkap = nama_lengkap;
         this.alamat = alamat;
         this.noTelp = noTelp;
         this.gender = gender;
         this.umur = umur;
+        this.password = password;
     }
 
     public String getNama_lengkap() {
@@ -54,4 +57,5 @@ public class Profile {
     public void setUmur(String umur) {
         this.umur = umur;
     }
+
 }

@@ -15,9 +15,10 @@ public class ActivityUtil {
         this.context=context;
     }
 
-    public void startMainActivity(String email){
+    public void startMainActivity(String email, String password){
         Preferences preferences = new Preferences(context);
         preferences.setEmailNorm(email);
+        preferences.setPassNorm(password);
         context.startActivity(new Intent(context, popUpProfile.class));
     }
 }

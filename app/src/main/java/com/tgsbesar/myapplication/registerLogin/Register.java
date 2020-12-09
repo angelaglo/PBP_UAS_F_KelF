@@ -1,6 +1,5 @@
 package com.tgsbesar.myapplication.registerLogin;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,19 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tgsbesar.myapplication.R;
 import com.tgsbesar.myapplication.UnitTesting.ActivityUtil;
 import com.tgsbesar.myapplication.UnitTesting.RegisterPresenter;
 import com.tgsbesar.myapplication.UnitTesting.RegisterService;
 import com.tgsbesar.myapplication.UnitTesting.RegisterView;
-import com.tgsbesar.myapplication.database.Preferences;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -110,8 +104,8 @@ public class Register extends AppCompatActivity implements RegisterView{
     }
 
     @Override
-    public void startMainActivity(String email) {
-        new ActivityUtil(this).startMainActivity(email);
+    public void startMainActivity(String email, String password) {
+        new ActivityUtil(this).startMainActivity(email,password);
     }
 
     @Override

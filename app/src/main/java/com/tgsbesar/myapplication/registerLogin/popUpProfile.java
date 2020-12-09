@@ -33,7 +33,7 @@ import static com.android.volley.Request.Method.POST;
 
 public class popUpProfile extends AppCompatActivity {
 
-    private String emails,jeniskelamin;
+    private String emails,jeniskelamin, passwords;
     private TextInputEditText nama_input, alamat_input, noTelp_input, umur_input;
     private RadioGroup radioGroup;
     private RadioButton radio_female, radio_male;
@@ -48,6 +48,7 @@ public class popUpProfile extends AppCompatActivity {
 
         Preferences preferences = new Preferences(popUpProfile.this.getApplicationContext());
         emails = preferences.getEmailNorm();
+        passwords = preferences.getPassNorm();
 
         nama_input=findViewById(R.id.input_nama);
         alamat_input=findViewById(R.id.input_alamat);
@@ -69,12 +70,13 @@ public class popUpProfile extends AppCompatActivity {
                 String umur = umur_input.getText().toString();
                 String jenis_kelamin = jeniskelamin;
                 String email = emails;
+                String password = passwords;
 
                 if(!validateForm())
                 {
                     return;
                 }else{
-                    tambahProfil(namaLengkap,alamat,notelp,umur,jenis_kelamin,email);
+                    tambahProfil(namaLengkap,alamat,notelp,umur,jenis_kelamin,email,password);
                     Intent i = new Intent(popUpProfile.this, Login.class);
                     startActivity(i);
                 }
@@ -153,7 +155,7 @@ public class popUpProfile extends AppCompatActivity {
         return result;
     }
 
-    public void tambahProfil(final String namaLengkap, final String alamat, final String noTelp, final String umur, final String jeniskelamin, final String email){
+    public void tambahProfil(final String namaLengkap, final String alamat, final String noTelp, final String umur, final String jeniskelamin, final String email, final String password){
         RequestQueue queue = Volley.newRequestQueue(this);
 
         final ProgressDialog progressDialog;
@@ -196,6 +198,7 @@ public class popUpProfile extends AppCompatActivity {
                 params.put("jenis_kelamin",jeniskelamin);
                 params.put("notelp",noTelp);
                 params.put("alamat",alamat);
+                params.put("password",password);
 
                 return params;
             }

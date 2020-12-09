@@ -38,7 +38,7 @@ public class RegisterService {
                                             if(task.isSuccessful()){
                                                 callback.onSuccess(true);
                                                 view.showErrorResponse("Register berhasil, silahkan verifikasi email");
-                                                view.startMainActivity(email);
+                                                view.startMainActivity(email,password);
                                             }else{
                                                 callback.onError();
                                                 view.showRegisterError("Register gagal");

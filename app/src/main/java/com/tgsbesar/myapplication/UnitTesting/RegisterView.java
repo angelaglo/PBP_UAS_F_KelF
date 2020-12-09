@@ -5,7 +5,7 @@ public interface RegisterView {
     void showEmailError(String message);
     String getPassword();
     void showPasswordError(String message);
-    void startMainActivity(String email);
+    void startMainActivity(String email, String password);
     void showRegisterError(String message);
     void showErrorResponse(String message);
 }
