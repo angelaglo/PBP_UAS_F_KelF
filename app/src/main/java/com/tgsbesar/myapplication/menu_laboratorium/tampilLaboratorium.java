@@ -81,8 +81,9 @@ public class tampilLaboratorium extends AppCompatActivity {
             }
         });
 
-        Button btn_save = (Button)findViewById(R.id.buttonSendLab);
-        btn_save.setOnClickListener(new View.OnClickListener() {
+        //button untuk cetak pdf setelah selesai cetak masuk ke main activity
+        Button btn_cetak = (Button)findViewById(R.id.buttonSendLab);
+        btn_cetak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(tampilLaboratorium.this, MainActivity.class);

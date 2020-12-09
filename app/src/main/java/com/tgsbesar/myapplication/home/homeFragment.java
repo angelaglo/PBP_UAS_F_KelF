@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.tgsbesar.myapplication.R;
@@ -19,12 +18,11 @@ import com.tgsbesar.myapplication.database.Preferences;
 import com.tgsbesar.myapplication.menu_rawatInap.daftarRawatInap;
 import com.tgsbesar.myapplication.menu_laboratorium.laboratoriumActivity;
 import com.tgsbesar.myapplication.menu_rawatJalan.rawatJalan;
-import com.tgsbesar.myapplication.splashScreen;
 
 
 public class homeFragment extends Fragment {
 
-    CardView card_rawatJalan, card_rawatInap, card_Laboratorium;
+    CardView card_rawatJalan, card_rawatInap, card_Laboratorium, card_riwayatTransaksi;
     String norek;
     @Nullable
     @Override
@@ -65,6 +63,7 @@ public class homeFragment extends Fragment {
                 startActivity(i);
             }
         });
+
         return view;
     }
 }

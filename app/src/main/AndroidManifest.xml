@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".menu_rawatInap.editRawatInap"></activity>
+        <activity android:name=".menu_rawatInap.editRawatInap" />
         <activity android:name=".menu_laboratorium.editTransaksiLab" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
@@ -79,13 +79,13 @@
             </intent-filter>
         </service>
     </application>
-    <uses-feature android:name="android.hardware.camera" />
-
     <uses-feature android:name="android.hardware.type.watch" />
-    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

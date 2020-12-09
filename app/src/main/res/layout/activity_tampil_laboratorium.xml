@@ -181,7 +181,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"
-            android:text="Save"
+            android:text="Cetak Bukti Pendaftaran"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
