@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tgsbesar.myapplication.databinding.ActivityListDoctorBinding;
+
 import com.tgsbesar.myapplication.databinding.ActivityRecyclerViewDaftarInapBinding;
 import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
 import com.tgsbesar.myapplication.menu_rawatJalan.Input;

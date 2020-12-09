@@ -3,12 +3,10 @@ package com.tgsbesar.myapplication.menu_laboratorium;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -21,9 +19,6 @@ import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.LaboratoriumAPI;
 import com.tgsbesar.myapplication.R;
 import com.tgsbesar.myapplication.databinding.ActivityLaboratoriumBinding;
-import com.tgsbesar.myapplication.menu_rawatJalan.SpesialisAdapter;
-import com.tgsbesar.myapplication.menu_rawatJalan.Tampil_Dokter;
-import com.tgsbesar.myapplication.menu_rawatJalan.rawatJalan;
 import com.tgsbesar.myapplication.model.Laboratorium;
 
 import org.json.JSONArray;

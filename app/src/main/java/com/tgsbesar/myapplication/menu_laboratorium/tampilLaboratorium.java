@@ -2,8 +2,6 @@ package com.tgsbesar.myapplication.menu_laboratorium;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,7 +12,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,24 +22,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.tgsbesar.myapplication.API.LaboratoriumAPI;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
-import com.tgsbesar.myapplication.menu_rawatJalan.DaftarDokter;
-import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
-import com.tgsbesar.myapplication.menu_rawatJalan.DokterAdapter;
-import com.tgsbesar.myapplication.model.Laboratorium;
 import com.tgsbesar.myapplication.model.transaksiLaboratorium;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static com.android.volley.Request.Method.GET;
 

@@ -47,7 +47,7 @@ public class Input extends AppCompatActivity  implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
 
-        Dokter dtr = (Dokter) getIntent().getSerializableExtra("Dokter"); //1
+        Dokter dtr = (Dokter) getIntent().getSerializableExtra("dokter"); //1
 
         Calendar calendar = Calendar.getInstance();
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -139,12 +139,9 @@ public class Input extends AppCompatActivity  implements AdapterView.OnItemClick
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
 
-                    if (obj.getString("message").equals("Add Transaksi Rawat Jalan Success")) {
+                    if (obj.getString("message").equals("Add Transaksi Success")) {
                         Intent intent = new Intent(Input.this, tampilRawatJalan.class);
-                        intent.putExtra("Jam",jam_rjalan);
-                        intent.putExtra("Dokter",nama_dokter);
-                        intent.putExtra("no_urut",no_urut);
-                        intent.putExtra("Tanggal",tgl_rjalan);
+                        intent.putExtra("email",email);
                         startActivity(intent);
                     }
 

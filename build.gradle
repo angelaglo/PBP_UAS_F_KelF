@@ -17,6 +17,7 @@ buildscript {
             }
         }
         maven { url 'https://mapbox.bintray.com/mapbox' }
+
     }
 
 
@@ -35,6 +36,9 @@ allprojects {
         google()
         jcenter()
         maven{url 'https://mapbox.bintray.com/mapbox'}
+        maven { url 'https://jitpack.io' }
+
+
     }
 }
 

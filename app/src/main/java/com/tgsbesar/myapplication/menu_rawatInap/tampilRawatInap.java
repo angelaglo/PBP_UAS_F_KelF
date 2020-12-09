@@ -42,7 +42,7 @@ import static com.android.volley.Request.Method.GET;
 public class tampilRawatInap extends AppCompatActivity {
     String no_booking, email="stevani@tubes.com";
     private TextView txt_TipeKamar, txt_Harga, txt_Tanggal, txt_noBooking, txt_tanggal;
-    private Integer id_transaksi;
+    private String id_transaksi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,9 +161,9 @@ public class tampilRawatInap extends AppCompatActivity {
                     String kelas_kamar         = jsonArray.getString("kelas_kamar");
                     Double harga_kamar         = Double.valueOf(jsonArray.getString("harga_kamar"));
                     String tgl_rinap           = jsonArray.getString("tgl_rinap");
-                    Integer id                   = Integer.valueOf(jsonArray.getString("id"));
+                    String id                  = jsonArray.getString("id");
 
-                    transaksiRawatInap transaksiRawatInap = new transaksiRawatInap(kelas_kamar,harga_kamar,tgl_rinap,id);
+                    transaksiRawatInap transaksiRawatInap = new transaksiRawatInap(kelas_kamar,harga_kamar,tgl_rinap,Integer.valueOf(id));
 
 
                //     System.out.println(transaksiLaboratorium.getPaket_checkUp());

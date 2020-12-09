@@ -1,4 +1,4 @@
-package com.tgsbesar.myapplication.menu_laboratorium;
+package com.tgsbesar.myapplication.menu_rawatJalan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,11 +20,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
-import com.tgsbesar.myapplication.API.transaksiRInapAPI;
+import com.tgsbesar.myapplication.API.transaksiRJalanAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
-import com.tgsbesar.myapplication.menu_rawatInap.editRawatInap;
-import com.tgsbesar.myapplication.model.Laboratorium;
+import com.tgsbesar.myapplication.menu_laboratorium.editTransaksiLab;
+import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONException;
@@ -38,12 +38,11 @@ import java.util.Map;
 import java.util.Random;
 
 import static com.android.volley.Request.Method.DELETE;
-import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
-public class editTransaksiLab extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class editRawatJalan extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    String jam, no_booking,email="stevani@yy.com" ,strDate;
+    String jam,email,strDate;
     Integer id=0;
 
     @Override
@@ -52,7 +51,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_edit_transaksi_lab);
 
         id = Integer.valueOf((String) getIntent().getSerializableExtra("id"));
-
+        email=(String)getIntent().getStringExtra("email");
 
         Calendar calendar = Calendar.getInstance();
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -94,7 +93,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              editTransaksi(strDate,jam);
+                editTransaksi(strDate,jam);
             }
         });
 
@@ -134,19 +133,19 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
     }
 
 
-    public void editTransaksi(final String tgl_checkUp, final String jam_checkUp){
+    public void editTransaksi(final String tgl_rjalan, final String jam_rjalan){
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(this);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Mengubah data mahasiswa");
+        progressDialog.setTitle("Mengubah waktu perawatan");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
         //Memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest  stringRequest = new StringRequest(PUT, transaksiLaboratoriumAPI.URL_UPDATE + String.valueOf(id) ,new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(PUT, transaksiRJalanAPI.URL_UPDATE + String.valueOf(id) ,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
@@ -157,13 +156,14 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
                     JSONObject obj = new JSONObject(response);
 
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(editTransaksiLab.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(editRawatJalan.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                     System.out.println(response.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Intent i = new Intent(editTransaksiLab.this, tampilLaboratorium.class);
-                i.putExtra("id",id);
+                Intent i = new Intent(editRawatJalan.this, tampilRawatJalan.class);
+                i.putExtra("email",email);
+
                 startActivity(i);
             }
         }, new Response.ErrorListener() {
@@ -171,7 +171,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
             public void onErrorResponse(VolleyError error) {
                 //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(editTransaksiLab.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(editRawatJalan.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -183,9 +183,8 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
                     API.
                 */
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("tgl_checkUp", tgl_checkUp);
-                params.put("jam_checkUp", jam_checkUp);
-                System.out.println(tgl_checkUp);
+                params.put("tgl_rjalan", tgl_rjalan);
+                params.put("jam_rjalan", jam_rjalan);
                 return params;
             }
         };
@@ -207,7 +206,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
         progressDialog.show();
 
         //Memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest stringRequest = new StringRequest(DELETE, transaksiLaboratoriumAPI.URL_DELETE + id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(DELETE, transaksiRJalanAPI.URL_DELETE + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
@@ -216,10 +215,9 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(editTransaksiLab.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(editRawatJalan.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                    Intent i = new Intent(editTransaksiLab.this, MainActivity.class);
-
+                    Intent i = new Intent(editRawatJalan.this, MainActivity.class);
                     startActivity(i);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -230,12 +228,14 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
             public void onErrorResponse(VolleyError error) {
                 //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(editTransaksiLab.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(editRawatJalan.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }
+
+
 
 }

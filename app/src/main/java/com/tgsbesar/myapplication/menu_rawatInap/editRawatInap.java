@@ -1,6 +1,9 @@
 package com.tgsbesar.myapplication.menu_rawatInap;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.RawatInapAPI;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.API.transaksiRInapAPI;
+import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
 import com.tgsbesar.myapplication.menu_laboratorium.editTransaksiLab;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
@@ -40,15 +44,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.android.volley.Request.Method.DELETE;
 import static com.android.volley.Request.Method.GET;
 import static com.android.volley.Request.Method.PUT;
 
 public class editRawatInap extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     String jam, no_booking,email="stevani@yy.com" ,strDate;
-    private Integer id=0;
-    private String kelasKamar;
-    private Double hargaKamar;
+    private String id="";
+    private String kelasKamar="";
+    private Double hargaKamar=0.0;
     private ArrayList<KelasKamar> listKamar = new ArrayList<>();
     private AutoCompleteTextView drop;
 
@@ -58,7 +63,7 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_rawat_inap);
 
-        id = Integer.valueOf((String) getIntent().getSerializableExtra("id"));
+        id = (String) getIntent().getSerializableExtra("id");
 
         getKamar();
         Calendar calendar = Calendar.getInstance();
@@ -68,7 +73,7 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
 
         Button btnDate = findViewById(R.id.buttonPickDateCheckUp);
         TextView tanggal = findViewById(R.id.tv_dateCheckUp);
-        Button btnSend = findViewById(R.id.buttonSend);
+        Button btnSend = findViewById(R.id.buttonSendERI);
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,13 +92,18 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
         drop = findViewById(R.id.dropdown_fill_Kelas);
 
 
-
-
-
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editTransaksi(kelasKamar, hargaKamar, strDate);
+            }
+        });
+
+        Button btn_batal = findViewById(R.id.buttonDelete);
+        btn_batal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                batalkanTransaksi(id);
             }
         });
     }
@@ -156,6 +166,7 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
                     e.printStackTrace();
                 }
                 Intent i = new Intent(editRawatInap.this, tampilRawatInap.class);
+                i.putExtra("id",id);
                 startActivity(i);
             }
         }, new Response.ErrorListener() {
@@ -252,4 +263,49 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }
+
+    //Fungsi menghapus data mahasiswa
+    public void batalkanTransaksi(String id){
+        //Pendeklarasian queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Menghapus data transaksi");
+        progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+        //Memulai membuat permintaan request menghapus data ke jaringan
+        StringRequest stringRequest = new StringRequest(DELETE, transaksiRInapAPI.URL_DELETE + id, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
+                progressDialog.dismiss();
+                try {
+                    //Mengubah response string menjadi object
+                    JSONObject obj = new JSONObject(response);
+                    //obj.getString("message") digunakan untuk mengambil pesan message dari response
+                    Toast.makeText(editRawatInap.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                    Intent i = new Intent(editRawatInap.this, MainActivity.class);
+                    startActivity(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Disini bagian jika response jaringan terdapat ganguan/error
+                progressDialog.dismiss();
+                Toast.makeText(editRawatInap.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
+        queue.add(stringRequest);
+    }
+
+
 }

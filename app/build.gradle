@@ -94,4 +94,12 @@ dependencies {
     //volley
     implementation 'com.android.volley:volley:1.1.0'
 
+
+    //downloader & pdf
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
+    implementation 'com.github.Shashank02051997:FancyToast-Android:0.1.8'
+    implementation 'com.github.Bleoo:WindowImageView:1.0.2'
+    implementation 'com.facebook.fresco:fresco:1.5.0'
+
 }

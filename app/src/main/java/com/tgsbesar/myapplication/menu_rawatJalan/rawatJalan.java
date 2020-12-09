@@ -46,7 +46,7 @@ public class rawatJalan extends AppCompatActivity {
     }
 
     public void loadDaftarDokter(){
-        getKamar();
+        getSpesialis();
         setAdapter();
 
     }
@@ -68,23 +68,24 @@ public class rawatJalan extends AppCompatActivity {
 
         adapter.setClick(new SpesialisAdapter.OnClickListener() {
             @Override
-            public void setClick(String nama) {
-                Intent intent = new Intent(rawatJalan.this, Tampil_Dokter.class);
-                intent.putExtra("nama",nama);
+            public void setClick(String nama_dokter, String spesialis) {
+                Intent intent = new Intent(rawatJalan.this, Input.class);
+                Dokter dtr = new Dokter(nama_dokter, spesialis);
+                intent.putExtra("dokter",dtr);
                 startActivity(intent);
             }
         });
 
     }
-    //mengambil data laboratorium
-    public void getKamar() {
+    //mengambil data spesialis
+    public void getSpesialis() {
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(this);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menampilkan data laboratorium");
+        progressDialog.setTitle("Menampilkan data dokter");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
