@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".profile.profileFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_height="match_parent">
 
 
     <ScrollView
@@ -30,22 +27,16 @@
                 style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:textAlignment="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/imageView"
+            <TextView
+                android:text="Please add your information below"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:textAlignment="center"
                 android:layout_width="match_parent"
-                android:layout_height="158dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/user"
-                />
-
-            <Button
-                android:id="@+id/btn_image"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Change Picture" />
+                android:layout_marginBottom="35dp"
+                android:textSize="15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,14 +139,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:id="@+id/btn_save"
-                    android:text="Save"/>
+                    android:text="ADD"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:id="@+id/btn_logout"
-                    android:text="LOGOUT"/>
+
             </LinearLayout>
 
 

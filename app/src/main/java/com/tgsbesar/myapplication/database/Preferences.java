@@ -15,11 +15,11 @@ public class Preferences {
         this.shared = this.context.getSharedPreferences(SHARED_PREF,Context.MODE_PRIVATE);
     }
 
-    public String getKeyNorm(){
+    public String getEmailNorm(){
         return shared.getString(KEY_NORM,"");
     }
 
-    public void setKeyNorm(String norm){
+    public void setEmailNorm(String norm){
         SharedPreferences.Editor editor = shared.edit();
         editor.putString(KEY_NORM,norm);
         editor.apply();

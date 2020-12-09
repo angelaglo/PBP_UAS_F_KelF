@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,16 +19,22 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tgsbesar.myapplication.R;
-import com.tgsbesar.myapplication.database.DatabaseClient;
-import com.tgsbesar.myapplication.database.User;
+import com.tgsbesar.myapplication.UnitTesting.ActivityUtil;
+import com.tgsbesar.myapplication.UnitTesting.RegisterPresenter;
+import com.tgsbesar.myapplication.UnitTesting.RegisterService;
+import com.tgsbesar.myapplication.UnitTesting.RegisterView;
+import com.tgsbesar.myapplication.database.Preferences;
 
-public class Register extends AppCompatActivity {
+import static android.widget.Toast.LENGTH_SHORT;
+
+public class Register extends AppCompatActivity implements RegisterView{
 
     private Button signUp, signIn;
     private TextInputLayout errorRM, errorPass;
     private FirebaseAuth firebaseAuth;
     private TextInputEditText txtRM, txtPass;
     private TextView loginNext;
+    private RegisterPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,51 +49,12 @@ public class Register extends AppCompatActivity {
 
         loginNext = findViewById(R.id.toLogin);
 
+        presenter = new RegisterPresenter(this, new RegisterService());
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!validateForm())
-                {
-                    Toast.makeText(Register.this,"askdaskdsa",Toast.LENGTH_SHORT).show();
-                    return;
-                }else{
-                    String email = txtRM.getText().toString();
-                    String password = txtPass.getText().toString();
-
-                    firebaseAuth = FirebaseAuth.getInstance();
-
-                    firebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
-                                        firebaseAuth.getCurrentUser().sendEmailVerification()
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                })
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()){
-                                                            Toast.makeText(getApplicationContext(),"Register sukses, lihat email verifikasi", Toast.LENGTH_SHORT).show();
-                                                            txtRM.setText("");
-                                                            txtPass.setText("");
-                                                        }else{
-                                                            Toast.makeText(Register.this, task.getException().getMessage(),
-                                                                    Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                });
-                                    } else{
-                                        Toast.makeText(Register.this,task.getException().getMessage(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
+                presenter.onRegisterClicked();
             }
         });
 
@@ -107,7 +72,7 @@ public class Register extends AppCompatActivity {
 
         if(TextUtils.isEmpty(txtRM.getText().toString())){
             result = false;
-            txtRM.setError("Nomor rekam medis harus diisi");
+            txtRM.setError("Email harus diisi");
 
         }else{
             txtRM.setError(null);
@@ -122,5 +87,40 @@ public class Register extends AppCompatActivity {
         }
 
         return result;
+    }
+
+    @Override
+    public String getEmail() {
+        return txtRM.getText().toString();
+    }
+
+    @Override
+    public void showEmailError(String message) {
+        txtRM.setError(message);
+    }
+
+    @Override
+    public String getPassword() {
+        return txtPass.getText().toString();
+    }
+
+    @Override
+    public void showPasswordError(String message) {
+        txtPass.setError(message);
+    }
+
+    @Override
+    public void startMainActivity(String email) {
+        new ActivityUtil(this).startMainActivity(email);
+    }
+
+    @Override
+    public void showRegisterError(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showErrorResponse(String message) {
+        Toast.makeText(this, message, LENGTH_SHORT).show();
     }
 }
