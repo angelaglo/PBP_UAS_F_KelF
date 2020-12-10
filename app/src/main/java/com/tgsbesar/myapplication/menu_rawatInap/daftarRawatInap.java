@@ -109,7 +109,7 @@ public class daftarRawatInap extends AppCompatActivity {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menampilkan data laboratorium");
+        progressDialog.setTitle("Menampilkan data tipe kamar");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 

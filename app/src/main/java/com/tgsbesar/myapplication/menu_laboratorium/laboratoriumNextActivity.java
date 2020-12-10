@@ -26,6 +26,7 @@ import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
 import com.tgsbesar.myapplication.menu_rawatJalan.Input;
 import com.tgsbesar.myapplication.menu_rawatJalan.tampilRawatJalan;
 import com.tgsbesar.myapplication.model.Laboratorium;
+import com.tgsbesar.myapplication.model.transaksiLaboratorium;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONException;
@@ -52,8 +53,8 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         Preferences preferences = new Preferences(laboratoriumNextActivity.this.getApplicationContext());
         email = preferences.getEmailNorm();
 
-        Laboratorium lab = (Laboratorium) getIntent().getSerializableExtra("Laboratorium") ;
-
+        Laboratorium lab = (Laboratorium) getIntent().getSerializableExtra("Laboratorium");
+        transaksiLaboratorium trans = (transaksiLaboratorium) getIntent().getSerializableExtra("TransLab");
 
         Calendar calendar = Calendar.getInstance();
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -98,6 +99,7 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
                 pesanLab(email,lab.getKategori(),String.valueOf(lab.harga_test),strDate,jam, lab.getDeskripsi());
             }
         });
+
     }
 
     @Override
@@ -135,7 +137,7 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
         progressDialog.setMessage("loading....");
         progressDialog.setTitle("Menambahkan data transaksi");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
+
 
         StringRequest stringRequest = new StringRequest(POST, transaksiLaboratoriumAPI.URL_ADD, new Response.Listener<String>() {
 
@@ -149,6 +151,8 @@ public class laboratoriumNextActivity extends AppCompatActivity implements Adapt
 
                     if (obj.getString("message").equals("Add TransaksiLaboratorium Success")) {
                         Laboratorium lab = new Laboratorium(paket_checkUp,deskripsi_checkUp,Double.valueOf(harga_paket));
+                        transaksiLaboratorium trans = new transaksiLaboratorium(paket_checkUp, tgl_checkUp, Double.valueOf(harga_paket), jam_checkUp, email);
+
                         Intent intent = new Intent(laboratoriumNextActivity.this, tampilLaboratorium.class);
                         //    intent.putExtra("Laboratorium", lab);
                         //  intent.putExtra("Tanggal",tgl_checkUp);
