@@ -10,8 +10,6 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.tgsbesar.myapplication.registerLogin.Register;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -34,22 +32,31 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ProfileTestingF {
+public class ProfileTest {
 
     @Rule
-    public ActivityTestRule<Register> mActivityTestRule = new ActivityTestRule<>(Register.class);
+    public ActivityTestRule<splashScreen> mActivityTestRule = new ActivityTestRule<>(splashScreen.class);
 
     @Test
-    public void profileTestingF() {
+    public void profileTest() {
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction textInputEditText = onView(
-                allOf(withId(R.id.tv_rm),
+                allOf(withId(R.id.tv_rmRegister),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.layout_rm),
+                                        withId(R.id.layout_rmRegister),
                                         0),
-                                1),
+                                0),
                         isDisplayed()));
-        textInputEditText.perform(replaceText("angelagloria68@gmail.com"), closeSoftKeyboard());
+        textInputEditText.perform(replaceText("funniechubby17@gmail.com"), closeSoftKeyboard());
 
         ViewInteraction textInputEditText2 = onView(
                 allOf(withId(R.id.tv_pass),
@@ -71,6 +78,15 @@ public class ProfileTestingF {
                         isDisplayed()));
         materialButton.perform(click());
 
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.btn_save), withText("ADD"),
                         childAtPosition(
@@ -86,9 +102,9 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_nama),
                                         0),
-                                1),
+                                0),
                         isDisplayed()));
-        textInputEditText3.perform(replaceText("Angela Gloria"), closeSoftKeyboard());
+        textInputEditText3.perform(replaceText("stevani"), closeSoftKeyboard());
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.btn_save), withText("ADD"),
@@ -118,15 +134,15 @@ public class ProfileTestingF {
                                 6)));
         materialButton4.perform(scrollTo(), click());
 
-        ViewInteraction textInputEditText5 = onView(
-                allOf(withId(R.id.input_telp),
+        ViewInteraction materialRadioButton = onView(
+                allOf(withId(R.id.rd_perempuan), withText("Perempuan"),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.textLayout_telp),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textInputEditText5.perform(replaceText("0822"), closeSoftKeyboard());
+                                allOf(withId(R.id.radGroup),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                3)),
+                                0)));
+        materialRadioButton.perform(scrollTo(), click());
 
         ViewInteraction materialButton5 = onView(
                 allOf(withId(R.id.btn_save), withText("ADD"),
@@ -137,35 +153,15 @@ public class ProfileTestingF {
                                 6)));
         materialButton5.perform(scrollTo(), click());
 
-        ViewInteraction textInputEditText7 = onView(
-                allOf(withId(R.id.input_telp), withText("0822"),
+        ViewInteraction textInputEditText5 = onView(
+                allOf(withId(R.id.input_telp),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.textLayout_telp),
                                         0),
                                 1),
                         isDisplayed()));
-        textInputEditText7.perform(click());
-
-        ViewInteraction textInputEditText8 = onView(
-                allOf(withId(R.id.input_telp), withText("0822"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.textLayout_telp),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textInputEditText8.perform(replaceText("082252526565"));
-
-        ViewInteraction textInputEditText9 = onView(
-                allOf(withId(R.id.input_telp), withText("082252526565"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.textLayout_telp),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textInputEditText9.perform(closeSoftKeyboard());
+        textInputEditText5.perform(replaceText("0877"), closeSoftKeyboard());
 
         ViewInteraction materialButton6 = onView(
                 allOf(withId(R.id.btn_save), withText("ADD"),
@@ -176,15 +172,25 @@ public class ProfileTestingF {
                                 6)));
         materialButton6.perform(scrollTo(), click());
 
-        ViewInteraction textInputEditText10 = onView(
-                allOf(withId(R.id.input_alamat),
+        ViewInteraction textInputEditText6 = onView(
+                allOf(withId(R.id.input_telp), withText("0877"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.textLayout_alamat),
+                                        withId(R.id.textLayout_telp),
                                         0),
                                 1),
                         isDisplayed()));
-        textInputEditText10.perform(replaceText("jogja"), closeSoftKeyboard());
+        textInputEditText6.perform(replaceText("087711473280"));
+
+        ViewInteraction textInputEditText7 = onView(
+                allOf(withId(R.id.input_telp), withText("087711473280"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.textLayout_telp),
+                                        0),
+                                1),
+                        isDisplayed()));
+        textInputEditText7.perform(closeSoftKeyboard());
 
         ViewInteraction materialButton7 = onView(
                 allOf(withId(R.id.btn_save), withText("ADD"),
@@ -195,15 +201,16 @@ public class ProfileTestingF {
                                 6)));
         materialButton7.perform(scrollTo(), click());
 
-        ViewInteraction materialRadioButton = onView(
-                allOf(withId(R.id.rd_perempuan), withText("Perempuan"),
+        ViewInteraction textInputEditText8 = onView(
+                allOf(withId(R.id.input_alamat),
                         childAtPosition(
-                                allOf(withId(R.id.radGroup),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                3)),
-                                1)));
-        materialRadioButton.perform(scrollTo(), click());
+                                childAtPosition(
+                                        withId(R.id.textLayout_alamat),
+                                        0),
+                                1),
+                        isDisplayed()));
+        textInputEditText8.perform(replaceText("jl sengkan no 2"), closeSoftKeyboard());
+
 
         ViewInteraction materialButton8 = onView(
                 allOf(withId(R.id.btn_save), withText("ADD"),

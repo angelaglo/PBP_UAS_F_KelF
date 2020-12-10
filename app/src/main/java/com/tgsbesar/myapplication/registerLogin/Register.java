@@ -36,9 +36,9 @@ public class Register extends AppCompatActivity implements RegisterView{
 
         signUp = findViewById(R.id.signUp);
 
-        txtRM = findViewById(R.id.tv_rm);
+        txtRM = findViewById(R.id.tv_rmRegister);
         txtPass = findViewById(R.id.tv_pass);
-        errorRM = findViewById(R.id.layout_rm);
+        errorRM = findViewById(R.id.layout_rmRegister);
         errorPass = findViewById(R.id.layout_pass);
 
         loginNext = findViewById(R.id.toLogin);

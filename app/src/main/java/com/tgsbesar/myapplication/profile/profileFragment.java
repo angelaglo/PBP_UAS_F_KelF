@@ -86,7 +86,7 @@ public class profileFragment extends Fragment {
         alamat_input=view.findViewById(R.id.input_alamat);
         noTelp_input=view.findViewById(R.id.input_telp);
         umur_input=view.findViewById(R.id.input_umur);
-        btn_save=view.findViewById(R.id.btn_save);
+        btn_save=view.findViewById(R.id.btn_saveProfile);
         radioGroup = view.findViewById(R.id.radGroup);
         radioGroup.setOnCheckedChangeListener(radioGrouoOnCheckedListener);
         btn_logout =view.findViewById(R.id.btn_logout);
