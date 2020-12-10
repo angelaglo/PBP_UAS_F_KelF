@@ -25,6 +25,8 @@ import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.database.Preferences;
+import com.tgsbesar.myapplication.home.homeFragment;
 import com.tgsbesar.myapplication.model.transaksiLaboratorium;
 
 import org.json.JSONException;
@@ -36,7 +38,7 @@ import static com.android.volley.Request.Method.GET;
 
 public class tampilLaboratorium extends AppCompatActivity {
     Integer no_booking;
-    String email="stevani@yy.com";
+    String email;
     private TextView txt_PaketCheckUp, txt_harga, txt_tanggalCheckUp, txt_jamCheckUp, txt_noBooking;
 
     List<transaksiLaboratorium> listTransaksi;
@@ -46,10 +48,12 @@ public class tampilLaboratorium extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tampil_laboratorium);
 
-     //   Laboratorium lab= (Laboratorium) getIntent().getSerializableExtra("Laboratorium");
-     //   String jam = getIntent().getStringExtra("Jam");
-     //   String tanggal = getIntent().getStringExtra("Tanggal");
-     //    no_booking = Integer.valueOf(getIntent().getStringExtra("id"));
+        Preferences preferences = new Preferences(tampilLaboratorium.this.getApplicationContext());
+        email = preferences.getEmailNorm();
+        //   Laboratorium lab= (Laboratorium) getIntent().getSerializableExtra("Laboratorium");
+        //   String jam = getIntent().getStringExtra("Jam");
+        //   String tanggal = getIntent().getStringExtra("Tanggal");
+        //    no_booking = Integer.valueOf(getIntent().getStringExtra("id"));
 
 
         getLaboratorium();
@@ -155,22 +159,24 @@ public class tampilLaboratorium extends AppCompatActivity {
 
 
 
-                        String paket_checkUp         = jsonArray.getString("paket_checkUp");
-                        Double harga_checkUp         = Double.valueOf(jsonArray.getString("harga_paket"));
-                        String jam_checkUp           = jsonArray.getString("jam_checkUp");
-                        String tgl_checkUp           = jsonArray.getString("tgl_checkUp");
-                        Integer id                   = Integer.valueOf(jsonArray.getString("id"));
+                    String paket_checkUp         = jsonArray.getString("paket_checkUp");
+                    Double harga_checkUp         = Double.valueOf(jsonArray.getString("harga_paket"));
+                    String jam_checkUp           = jsonArray.getString("jam_checkUp");
+                    String tgl_checkUp           = jsonArray.getString("tgl_checkUp");
+                    Integer id                   = Integer.valueOf(jsonArray.getString("id"));
 
 
-                        transaksiLaboratorium = new transaksiLaboratorium(paket_checkUp,tgl_checkUp,harga_checkUp,jam_checkUp,email);
+                    transaksiLaboratorium = new transaksiLaboratorium(paket_checkUp,tgl_checkUp,harga_checkUp,jam_checkUp,email);
 
-                        System.out.println(transaksiLaboratorium.getPaket_checkUp());
+                    System.out.println(transaksiLaboratorium.getPaket_checkUp());
 
                     txt_PaketCheckUp.setText(transaksiLaboratorium.getPaket_checkUp());
                     txt_harga.setText(String.valueOf(transaksiLaboratorium.getHarga_checkUp()));
                     txt_tanggalCheckUp.setText(transaksiLaboratorium.getTgl_checkUp());
                     txt_jamCheckUp.setText(transaksiLaboratorium.getJam_checkUp());
                     txt_noBooking.setText(String.valueOf(id));
+                    no_booking=id;
+
 
                 }catch (JSONException e){
                     e.printStackTrace();

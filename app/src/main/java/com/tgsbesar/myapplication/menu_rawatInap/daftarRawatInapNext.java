@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.API.transaksiRInapAPI;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.database.Preferences;
 import com.tgsbesar.myapplication.menu_laboratorium.laboratoriumNextActivity;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
@@ -44,11 +45,13 @@ import static com.android.volley.Request.Method.POST;
 
 public class daftarRawatInapNext extends AppCompatActivity {
 
-    String message,no_book,email="stevani@tubes.com",strDate;
+    String message,no_book,email,strDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daftar_rawat_inap_next);
+        Preferences preferences = new Preferences(daftarRawatInapNext.this.getApplicationContext());
+        email = preferences.getEmailNorm();
 
         KelasKamar kmr = (KelasKamar) getIntent().getSerializableExtra("KelasKamar"); //1
 
@@ -128,9 +131,9 @@ public class daftarRawatInapNext extends AppCompatActivity {
 
                     if (obj.getString("message").equals("Add Transaksi Success")) {
                         Intent intent = new Intent(daftarRawatInapNext.this, tampilRawatInap.class);
-                       // KelasKamar kelasKamar = new KelasKamar(kelas_kamar,fasilitas,Double.valueOf(harga_kamar));
-                       // intent.putExtra("KelasKamar",kelasKamar);
-                       // intent.putExtra("Tanggal",tgl_rinap);
+                        // KelasKamar kelasKamar = new KelasKamar(kelas_kamar,fasilitas,Double.valueOf(harga_kamar));
+                        // intent.putExtra("KelasKamar",kelasKamar);
+                        // intent.putExtra("Tanggal",tgl_rinap);
                         startActivity(intent);
                     }
 

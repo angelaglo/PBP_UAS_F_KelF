@@ -26,6 +26,7 @@ import com.tgsbesar.myapplication.API.transaksiRInapAPI;
 import com.tgsbesar.myapplication.API.transaksiRJalanAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.database.Preferences;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.tgsbesar.myapplication.menu_rawatInap.tampilRawatInap;
 import com.tgsbesar.myapplication.model.transaksiRawatInap;
@@ -48,7 +49,8 @@ public class tampilRawatJalan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tampil_rawat_jalan);
 
-        String email = getIntent().getStringExtra("email");
+        Preferences preferences = new Preferences(tampilRawatJalan.this.getApplicationContext());
+        email = preferences.getEmailNorm();
 
         txt_spesialis = (TextView) findViewById(R.id.txtSpesialis);
         txt_dokter = (TextView) findViewById(R.id.txtDokter);

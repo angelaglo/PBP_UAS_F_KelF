@@ -23,6 +23,7 @@ import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.API.transaksiRJalanAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.database.Preferences;
 import com.tgsbesar.myapplication.menu_laboratorium.editTransaksiLab;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -50,8 +51,10 @@ public class editRawatJalan extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaksi_lab);
 
+        Preferences preferences = new Preferences(editRawatJalan.this.getApplicationContext());
+        email = preferences.getEmailNorm();
+
         id = Integer.valueOf((String) getIntent().getSerializableExtra("id"));
-        email=(String)getIntent().getStringExtra("email");
 
         Calendar calendar = Calendar.getInstance();
         int Day = calendar.get(Calendar.DAY_OF_MONTH);

@@ -28,6 +28,8 @@ import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.API.transaksiRInapAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.database.Preferences;
+import com.tgsbesar.myapplication.home.homeFragment;
 import com.tgsbesar.myapplication.menu_laboratorium.editTransaksiLab;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.tgsbesar.myapplication.model.KelasKamar;
@@ -50,7 +52,7 @@ import static com.android.volley.Request.Method.PUT;
 
 public class editRawatInap extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    String jam, no_booking,email="stevani@yy.com" ,strDate;
+    String jam, no_booking,email ,strDate;
     private String id="";
     private String kelasKamar="";
     private Double hargaKamar=0.0;
@@ -62,7 +64,8 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_rawat_inap);
-
+        Preferences preferences = new Preferences(editRawatInap.this.getApplicationContext());
+        email = preferences.getEmailNorm();
         id = (String) getIntent().getSerializableExtra("id");
 
         getKamar();
@@ -240,7 +243,7 @@ public class editRawatInap extends AppCompatActivity implements AdapterView.OnIt
 
 
                     }
-                     ArrayAdapter<String> adapter= new ArrayAdapter<String>(editRawatInap.this,R.layout.support_simple_spinner_dropdown_item, namaKelas);
+                    ArrayAdapter<String> adapter= new ArrayAdapter<String>(editRawatInap.this,R.layout.support_simple_spinner_dropdown_item, namaKelas);
                     drop.setAdapter(adapter);
                     drop.setOnItemClickListener(editRawatInap.this);
 

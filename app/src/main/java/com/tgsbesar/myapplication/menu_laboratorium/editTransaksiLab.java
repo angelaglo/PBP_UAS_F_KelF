@@ -43,7 +43,7 @@ import static com.android.volley.Request.Method.PUT;
 
 public class editTransaksiLab extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    String jam, no_booking,email="stevani@yy.com" ,strDate;
+    String jam, no_booking ,strDate;
     Integer id=0;
 
     @Override
@@ -94,7 +94,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              editTransaksi(strDate,jam);
+                editTransaksi(strDate,jam);
             }
         });
 
@@ -141,7 +141,7 @@ public class editTransaksiLab extends AppCompatActivity implements AdapterView.O
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Mengubah data mahasiswa");
+        progressDialog.setTitle("Mengubah data transaksi");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 

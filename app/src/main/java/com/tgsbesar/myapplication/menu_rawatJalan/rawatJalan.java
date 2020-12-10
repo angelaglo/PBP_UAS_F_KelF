@@ -110,7 +110,7 @@ public class rawatJalan extends AppCompatActivity {
 
                         String nama             = jsonObject.optString("nama_dokter");
                         String spesialis          = jsonObject.optString("spesialis");
-                      ;
+                        ;
 
 
                         //Membuat objek user

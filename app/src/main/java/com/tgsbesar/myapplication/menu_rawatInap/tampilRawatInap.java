@@ -26,6 +26,7 @@ import com.tgsbesar.myapplication.API.transaksiLaboratoriumAPI;
 import com.tgsbesar.myapplication.API.transaksiRInapAPI;
 import com.tgsbesar.myapplication.MainActivity;
 import com.tgsbesar.myapplication.R;
+import com.tgsbesar.myapplication.database.Preferences;
 import com.tgsbesar.myapplication.menu_laboratorium.tampilLaboratorium;
 import com.tgsbesar.myapplication.menu_rawatJalan.Dokter;
 import com.tgsbesar.myapplication.model.KelasKamar;
@@ -40,7 +41,7 @@ import java.util.Random;
 import static com.android.volley.Request.Method.GET;
 
 public class tampilRawatInap extends AppCompatActivity {
-    String no_booking, email="stevani@tubes.com";
+    String no_booking, email;
     private TextView txt_TipeKamar, txt_Harga, txt_Tanggal, txt_noBooking, txt_tanggal;
     private String id_transaksi;
 
@@ -48,15 +49,17 @@ public class tampilRawatInap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tampil_rawat_inap);
+        Preferences preferences = new Preferences(tampilRawatInap.this.getApplicationContext());
+        email = preferences.getEmailNorm();
 
         KelasKamar kmr = (KelasKamar) getIntent().getSerializableExtra("KelasKamar");
         String tanggal = getIntent().getStringExtra("Tanggal");
-       // String no_book = getIntent().getStringExtra("no_book");
+        // String no_book = getIntent().getStringExtra("no_book");
 
         txt_TipeKamar = (TextView) findViewById(R.id.txtKelasKamar);
-       // txt_Fasilitas = (TextView) findViewById(R.id.txtFasilitas);
-         txt_Harga = (TextView)findViewById(R.id.txtHarga) ;
-         txt_tanggal = (TextView) findViewById(R.id.txtTanggal);
+        // txt_Fasilitas = (TextView) findViewById(R.id.txtFasilitas);
+        txt_Harga = (TextView)findViewById(R.id.txtHarga) ;
+        txt_tanggal = (TextView) findViewById(R.id.txtTanggal);
         txt_noBooking = (TextView) findViewById(R.id.txtNoBookingRI);
 
 
@@ -120,7 +123,7 @@ public class tampilRawatInap extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_logo_background)
                 .setContentTitle("Pendaftaran Rawat Inap Sukses!")
-                .setContentText("No Booking anda "+no_booking)
+                .setContentText("No Booking anda "+id_transaksi)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Intent notificationIntent= new Intent(this,MainActivity.class);
@@ -166,7 +169,7 @@ public class tampilRawatInap extends AppCompatActivity {
                     transaksiRawatInap transaksiRawatInap = new transaksiRawatInap(kelas_kamar,harga_kamar,tgl_rinap,Integer.valueOf(id));
 
 
-               //     System.out.println(transaksiLaboratorium.getPaket_checkUp());
+                    //     System.out.println(transaksiLaboratorium.getPaket_checkUp());
 
                     txt_TipeKamar.setText(transaksiRawatInap.getKelas());
                     txt_noBooking.setText(String.valueOf(id));
