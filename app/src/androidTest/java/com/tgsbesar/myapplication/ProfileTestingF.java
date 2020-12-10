@@ -10,6 +10,8 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.tgsbesar.myapplication.registerLogin.Register;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -35,7 +37,7 @@ import static org.hamcrest.Matchers.is;
 public class ProfileTestingF {
 
     @Rule
-    public ActivityTestRule<splashScreen> mActivityTestRule = new ActivityTestRule<>(splashScreen.class);
+    public ActivityTestRule<Register> mActivityTestRule = new ActivityTestRule<>(Register.class);
 
     @Test
     public void profileTestingF() {
@@ -45,7 +47,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.layout_rm),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText.perform(replaceText("angelagloria68@gmail.com"), closeSoftKeyboard());
 
@@ -55,7 +57,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.layout_pass),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText2.perform(replaceText("123456"), closeSoftKeyboard());
 
@@ -84,7 +86,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_nama),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText3.perform(replaceText("Angela Gloria"), closeSoftKeyboard());
 
@@ -103,7 +105,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_umur),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText4.perform(replaceText("21"), closeSoftKeyboard());
 
@@ -122,7 +124,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_telp),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText5.perform(replaceText("0822"), closeSoftKeyboard());
 
@@ -141,7 +143,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_telp),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText7.perform(click());
 
@@ -151,7 +153,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_telp),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText8.perform(replaceText("082252526565"));
 
@@ -161,7 +163,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_telp),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText9.perform(closeSoftKeyboard());
 
@@ -180,7 +182,7 @@ public class ProfileTestingF {
                                 childAtPosition(
                                         withId(R.id.textLayout_alamat),
                                         0),
-                                0),
+                                1),
                         isDisplayed()));
         textInputEditText10.perform(replaceText("jogja"), closeSoftKeyboard());
 
@@ -200,7 +202,7 @@ public class ProfileTestingF {
                                         childAtPosition(
                                                 withClassName(is("android.widget.LinearLayout")),
                                                 3)),
-                                0)));
+                                1)));
         materialRadioButton.perform(scrollTo(), click());
 
         ViewInteraction materialButton8 = onView(
